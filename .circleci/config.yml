@@ -139,7 +139,3 @@ workflows:
       - scan-frontend:
           requires: [build-frontend]
           context: Notification
-  send-notification:
-    jobs:
-      - notify:
-          context: Notification
