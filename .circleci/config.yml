@@ -114,8 +114,6 @@ jobs:
           command: |
             cd backend
             npm install
-            npm audit fix --audit-level=critical --force
-            npm audit --audit-level=critical
       - slack/notify:
           event: fail
           mentions: '@sbekele1'
@@ -124,6 +122,41 @@ jobs:
           event: pass
           mentions: '@sbekele1'
           template: success_tagged_deploy_1
+  deploy-infrastructure:
+    docker:
+          # Docker image here that supports AWS CLI
+          #testing
+        - image: amazon/aws-cli
+    steps:
+          # Checkout code from git
+        - run:
+            name: Ensure back-end infrastructure exists
+            command: |
+                aws cloudformation deploy \
+                --template-file .circleci/files/backend.yml \
+                --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+                --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
+                --tags project=udapeople
+                exit 1
+        - run:
+            name: Ensure front-end infrastructure exist
+            command: |
+              aws cloudformation deploy \
+              --template-file .circleci/files/frontend.yml \
+              --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
+              --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
+              --tags project=udapeople
+              exit 1
+        - run:
+            name: Add back-end ip to ansible inventory
+            command: |
+                # Your code here
+                exit 1
+        - persist_to_workspace:
+              root: ~/
+              paths:
+                - project/.circleci/ansible/inventory.txt
+          # Here's where you will add some code to rollback on failure  
 workflows:
   default:
     jobs:
@@ -139,6 +172,12 @@ workflows:
       - scan-frontend:
           requires: [build-frontend]
           context: Notification
+      - deploy-infrastructure:
+          requires: [test-frontend, test-backend, scan-frontend, scan-backend]
+          filters:
+            branches:
+              only: [test-feature-branch]
+
 
 deploy-infrastructure:
   docker:
