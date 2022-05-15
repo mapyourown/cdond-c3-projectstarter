@@ -2,6 +2,37 @@ version: 2.1
 orbs: 
   slack: circleci/slack@4.9.4
 
+commands:
+  destroy-environment:
+    description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
+    parameters:
+      frontend_workflowID:
+        type: string
+        default: "udapeople-frontend-f6a81c4"
+      backend_workflowID:
+        type: string
+        default: "udapeople-backend-f6a81c4"
+      # Add parameter here   
+    steps:
+      - run:
+          name: Destroy environments
+          when: on_fail
+          command: |
+            aws cloudformation deploy \
+            --template-file .circleci/files/backend.yml \
+            --stack-name << parameters.backend_workflowID >> \
+            --parameter-overrides ID=<< parameters.backend_workflowID >>  \
+            --tags project=udapeople
+            exit 1
+      - run:
+            name: Ensure front-end infrastructure exist
+            when: on_fail
+            command: |
+              aws cloudformation deploy \
+              --template-file .circleci/files/frontend.yml \
+              --stack-name << parameters.frontend_workflowID >> \
+              --parameter-overrides ID=<< parameters.frontend_workflowID >>  \
+              --tags project=udapeople
 jobs:
   build-frontend:
     docker:
@@ -139,6 +170,7 @@ jobs:
               --stack-name "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
               --tags project=udapeople
+              exit 1
         - run:
             name: Ensure front-end infrastructure exist
             command: |
@@ -147,6 +179,7 @@ jobs:
               --stack-name "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}" \
               --parameter-overrides ID="${CIRCLE_WORKFLOW_ID:0:7}"  \
               --tags project=udapeople
+              exit 1
         - run:
             name: Add back-end ip to ansible inventory
             command: |
@@ -177,6 +210,7 @@ workflows:
           filters:
             branches:
               only: [test-feature-branch]
+      - destroy-environment
 
 
               
