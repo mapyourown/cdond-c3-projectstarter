@@ -8,10 +8,10 @@ commands:
     parameters:
       frontend_workflowID:
         type: string
-        default: "udapeople-frontend-f6a81c4"
+        default: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
       backend_workflowID:
         type: string
-        default: "udapeople-backend-f6a81c4"
+        default: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
       # Add parameter here   
     steps:
       - run:
