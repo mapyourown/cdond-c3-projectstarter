@@ -18,21 +18,13 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
-            aws cloudformation deploy \
-            --template-file .circleci/files/backend.yml \
-            --stack-name << parameters.backend_workflowID >> \
-            --parameter-overrides ID=<< parameters.backend_workflowID >>  \
-            --tags project=udapeople
-            exit 1
+            aws cloudformation delete-stack --stack-name << parameters.backend_workflowID >> 
       - run:
             name: Ensure front-end infrastructure exist
             when: on_fail
             command: |
-              aws cloudformation deploy \
-              --template-file .circleci/files/frontend.yml \
-              --stack-name << parameters.frontend_workflowID >> \
-              --parameter-overrides ID=<< parameters.frontend_workflowID >>  \
-              --tags project=udapeople
+              aws cloudformation delete-stack --stack-name << parameters.frontend_workflowID >> 
+            
 jobs:
   build-frontend:
     docker:
