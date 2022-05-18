@@ -26,14 +26,6 @@ commands:
               aws cloudformation delete-stack --stack-name << parameters.frontend_workflowID >> 
             
 jobs:
-  destroy-my-environment:
-    docker:
-      - image: amazon/aws-cli
-    steps: 
-      - destroy-environment:
-          frontend_workflowID: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
-          backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
-
   build-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -190,6 +182,14 @@ jobs:
               paths:
                 - project/.circleci/ansible/inventory.txt
           # Here's where you will add some code to rollback on failure  
+  destroy-my-environment:
+    docker:
+      - image: amazon/aws-cli
+    steps: 
+      - destroy-environment:
+          frontend_workflowID: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+          backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+
 workflows:
   default:
     jobs:
