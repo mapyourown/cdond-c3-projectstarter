@@ -20,10 +20,10 @@ commands:
           command: |
             aws cloudformation delete-stack --stack-name << parameters.backend_workflowID >> 
       - run:
-            name: Ensure front-end infrastructure exist
-            when: on_fail
-            command: |
-              aws cloudformation delete-stack --stack-name << parameters.frontend_workflowID >> 
+          name: Ensure front-end infrastructure exist
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name << parameters.frontend_workflowID >> 
             
 jobs:
   build-frontend:
