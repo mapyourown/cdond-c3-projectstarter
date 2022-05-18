@@ -8,7 +8,7 @@ commands:
     parameters:
       frontend_workflowID:
         type: string
-        default: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+        default: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
       backend_workflowID:
         type: string
         default: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
@@ -26,6 +26,14 @@ commands:
               aws cloudformation delete-stack --stack-name << parameters.frontend_workflowID >> 
             
 jobs:
+  destroy-my-environment:
+    docker:
+      - image: amazon/aws-cli
+    steps: 
+      - destroy-environment:
+          frontend_workflowID: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+          backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+
   build-frontend:
     docker:
       - image: circleci/node:13.8.0
@@ -202,6 +210,7 @@ workflows:
           filters:
             branches:
               only: [test-feature-branch]
+      - destroy-my-environment
 
 
               
