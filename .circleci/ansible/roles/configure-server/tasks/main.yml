@@ -3,7 +3,7 @@
 - name: "upgrade packages"
   become: true
   apt:
-    upgrade: "Yes"
+    upgrade: "yes"
 - name: "install dependencies"
   become: true
   apt:
