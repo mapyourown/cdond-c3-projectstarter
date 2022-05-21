@@ -191,8 +191,8 @@ jobs:
             - "23:9b:23:49:05:42:38:b3:da:d1:e6:5e:e6:e6:fe:5d"
          
       # attach workspace
-      - attach_workspace:
-          at: .circleci/ansible/inventory.txt
+      #- attach_workspace:
+          #at: .circleci/ansible/inventory.txt
       - run:
           name: Install dependencies
           command: |
