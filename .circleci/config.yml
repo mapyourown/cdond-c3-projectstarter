@@ -257,6 +257,8 @@ workflows:
           context: Notification
       - destroy-my-environment
       - configure-infrastructure
+      - run-migrations:
+          requires: [configure-infrastructure]
 
 
 
