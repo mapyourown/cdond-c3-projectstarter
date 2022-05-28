@@ -242,6 +242,9 @@ jobs:
           command: |
             # your code here
             # apk add --update ansible 
+            raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
+            apt nodejs
+            apt npm
       - run:
           name: Get backend url
           command: |
