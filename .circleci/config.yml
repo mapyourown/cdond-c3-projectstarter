@@ -241,13 +241,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apk add --update ansible 
-      - run:
-          name: Configure server
-          command: |
-            # Your code here
-            cd .circleci/ansible
-            ansible-playbook -i inventory.txt configure-server.yml
+            # apk add --update ansible 
       - run:
           name: Get backend url
           command: |
