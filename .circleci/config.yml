@@ -233,7 +233,7 @@ jobs:
   deploy-frontend:
     docker:
       # Docker image here that supports AWS CLI
-       - image: amazon/aws-cli
+       - image: circleci/node:13.8.0
     steps:
       # Checkout code from git
       - checkout
@@ -242,9 +242,7 @@ jobs:
           command: |
             # your code here
             # apk add --update ansible 
-            raw: test -e /usr/bin/python3 || (apt -y update && apt install -y python3)
-            apt nodejs
-            apt npm
+            
       - run:
           name: Get backend url
           command: |
