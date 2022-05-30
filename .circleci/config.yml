@@ -234,7 +234,7 @@ jobs:
   deploy-frontend:
     docker:
       # Docker image here that supports AWS CLI
-       - image: circleci/node:13.8.0
+       - image: amazon/aws-cli
     steps:
       # Checkout code from git
       - checkout
@@ -242,7 +242,8 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            # apk add --update ansible 
+             curl --silent --location https://rpm.nodesource.com/setup_16.x | bash -
+             yum -y install nodejs 
             # apt-get update && apt-get install -y awscli
             
       - run:
