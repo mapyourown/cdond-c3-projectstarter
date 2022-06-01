@@ -300,6 +300,7 @@ jobs:
           command: |
             # your code here
             apk add --update ansible 
+            apk add --update nodejs npm
       - run:
           name: Deploy backend
           command: |
