@@ -299,7 +299,7 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            yum install -y tar gzip
+            apk add --update ansible 
       - run:
           name: Deploy backend
           command: |
