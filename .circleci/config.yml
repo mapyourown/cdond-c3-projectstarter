@@ -252,7 +252,9 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            yum install -y tar gzip
+             curl --silent --location https://rpm.nodesource.com/setup_16.x | bash -
+             yum -y install nodejs 
+             yum install -y tar gzip
             # apt-get update && apt-get install -y awscli
             
       - run:
@@ -297,8 +299,6 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            curl --silent --location https://rpm.nodesource.com/setup_16.x | bash -
-            yum -y install nodejs 
             yum install -y tar gzip
       - run:
           name: Deploy backend
