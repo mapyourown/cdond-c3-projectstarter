@@ -293,7 +293,7 @@ jobs:
 
       # attach workspace
       - attach_workspace:
-          at: .circleci/ansible
+          at: project/.circleci/ansible
 
       - run:
           name: Install dependencies
