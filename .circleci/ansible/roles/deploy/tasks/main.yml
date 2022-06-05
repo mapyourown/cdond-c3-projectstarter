@@ -18,7 +18,7 @@
 
 - name: Extract the backend
   unarchive:
-    src: ~/artifact.tar.gz
+    src: ~/project/artifact.tar.gz
     dest: /var
 
 - name: Executing node
