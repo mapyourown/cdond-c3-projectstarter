@@ -17,9 +17,14 @@
     state: present
 
 - name: Extract the backend
+  user: ubuntu
+  become: true
+  become_method: sudo
+  become_user: root  
+  gather_facts: false
   unarchive:
     src: ~/project/artifact.tar.gz
-    dest: /var
+    dest: /var/www
 
 - name: Executing node
   shell: |
