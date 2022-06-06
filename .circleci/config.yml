@@ -324,7 +324,7 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      - image: python:3.7-alpine3.11
+      - image: amazon/aws-cli
     steps:
       # Checkout code from git
       - checkout
@@ -332,9 +332,9 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            apk add --update ansible 
-            apk add --update nodejs npm
-            apk add curl
+            curl --silent --location https://rpm.nodesource.com/setup_16.x | bash -
+            # yum -y install nodejs 
+            # yum install -y tar gzip
       - run:
           name: Get backend url
           command: |
