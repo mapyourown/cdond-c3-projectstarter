@@ -347,6 +347,7 @@ jobs:
           command: |
             # your code here
             BACKENDURL="${API_URL}/api/status"
+            echo ${BACKENDURL} 
             if curl -s ${BACKENDURL} | grep "ok" 
             then
               exit 0
