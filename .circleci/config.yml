@@ -324,7 +324,7 @@ jobs:
   smoke-test:
     docker:
       # Lightweight Docker image 
-      - image: amazon/aws-cli
+      - image:  amazon/aws-cli
     steps:
       # Checkout code from git
       - checkout
@@ -332,14 +332,13 @@ jobs:
           name: Install dependencies
           command: |
             # your code here
-            curl --silent --location https://rpm.nodesource.com/setup_16.x | bash -
-            # yum -y install nodejs 
-            # yum install -y tar gzip
+            
       - run:
           name: Get backend url
           command: |
             # your code here
             export BACKEND_IP=$(aws ec2 describe-instances --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+            echo "${BACKEND_IP}"
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
 
@@ -361,7 +360,7 @@ jobs:
             echo ${URL} 
             if curl -s ${URL} | grep "Welcome"
             then
-            # Change this to 0 after the job fails this
+            # Change this to 0 after the job fails
               return 1
             else
               return 1
