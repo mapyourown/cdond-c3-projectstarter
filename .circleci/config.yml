@@ -341,20 +341,13 @@ jobs:
             echo "${BACKEND_IP}"
             export API_URL="http://${BACKEND_IP}:3030"
             echo "${API_URL}"
-
-      - run:
-          name: Backend smoke test.
-          command: |
-            # your code here
-             echo "${API_URL}"
-            BACKENDURL="${API_URL}/api/status"
-            echo ${BACKENDURL} 
-            if curl -s ${BACKENDURL} | grep "ok" 
-            then
-              exit 0
+            if curl "${API_URL}/api/status" | grep "ok"
+            then    
+              return 0
             else
-              exit 1
+              return 1
             fi
+  
       - run:
           name: Frontend smoke test.
           command: |
