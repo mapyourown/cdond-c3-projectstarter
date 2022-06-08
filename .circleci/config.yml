@@ -27,8 +27,8 @@ commands:
             aws s3 rm s3://<< parameters.frontend_workflowID >> --recursive
             aws cloudformation delete-stack --stack-name << parameters.frontend_workflowID >> 
 
-orbs: 
-  slack: circleci/slack@4.9.4
+#orbs: 
+  #slack: circleci/slack@4.9.4
   #aws-cli: circleci/aws-cli@2.0.3
             
 jobs:
