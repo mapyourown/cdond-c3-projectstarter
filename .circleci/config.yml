@@ -372,6 +372,7 @@ jobs:
     docker:
       - image: amazon/aws-cli
     steps: 
+      - checkout
       - destroy-environment:
           frontend_workflowID: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
           backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
