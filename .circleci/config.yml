@@ -380,8 +380,8 @@ jobs:
         default: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
     steps: 
       - destroy-environment:
-          frontend_workflowID: << parameters.frontend_workflowID >>
-          backend_workflowID: << parameters.backend_workflowID >>
+    frontend_workflowID: << parameters.frontend_workflowID >>
+    backend_workflowID: << parameters.backend_workflowID >>
 
 workflows:
   default:
