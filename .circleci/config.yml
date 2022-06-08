@@ -371,11 +371,15 @@ jobs:
   destroy-my-environment:
     docker:
       - image: amazon/aws-cli
+    parameters:
+      frontend_workflowID:
+        type: string
+      backend_workflowID:
+        type: string
     steps: 
       - checkout
-      - destroy-environment:
-          frontend_workflowID: "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
-          backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+      - destroy-environment: 
+          message: Printing << parameters.frontend_workflowID >>
 
 workflows:
   default:
@@ -407,7 +411,12 @@ workflows:
           #requires: [run-migrations]
       - smoke-test
           #requires: [deploy-backend, deploy-frontend]
-      - destroy-my-environment
+      - destroy-my-environment:
+          frontend_workflowID: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+          backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
+
+            
+
           
 
           
