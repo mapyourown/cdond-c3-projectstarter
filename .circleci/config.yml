@@ -19,11 +19,14 @@ commands:
           name: Destroy environments
           when: on_fail
           command: |
+            echo "Deleting the stack"
+            echo << parameters.backend_workflowID >> 
             aws cloudformation delete-stack --stack-name << parameters.backend_workflowID >> 
       - run:
           name: Ensure front-end infrastructure exist
           when: on_fail
           command: |
+            echo "Deleting the front end"
             aws s3 rm s3://<< parameters.frontend_workflowID >> --recursive
             aws cloudformation delete-stack --stack-name << parameters.frontend_workflowID >> 
             
