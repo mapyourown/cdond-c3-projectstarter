@@ -379,7 +379,8 @@ jobs:
     steps: 
       - checkout
       - destroy-environment: 
-          message: Printing << parameters.frontend_workflowID >>
+         frontend_workflowID : << parameters.frontend_workflowID >>
+         backend_workflowID: << parameters.backend_workflowID >>
 
 workflows:
   default:
