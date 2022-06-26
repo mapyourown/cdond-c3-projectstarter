@@ -336,6 +336,9 @@ jobs:
             echo "Content of the inventory.txt file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
+      - destroy-environment: 
+              frontend_workflowID : "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+              backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
       - store_artifacts:
           path: artifact.tar.gz
           destination: .circleci/ansible/
@@ -381,22 +384,10 @@ jobs:
             else
               exit 1
             fi
-      # Here's where you will add some code to rollback on failure  
-
-  destroy-my-environment:
-    docker:
-      - image: amazon/aws-cli
-    parameters:
-      frontend_workflowID:
-        type: string
-      backend_workflowID:
-        type: string
-    steps: 
-      - checkout
-      - run:
-        - destroy-environment: 
-            frontend_workflowID : << parameters.frontend_workflowID >>
-            backend_workflowID: << parameters.backend_workflowID >>
+      # Here's where you will add some code to rollback on failure 
+      - destroy-environment: 
+              frontend_workflowID : "udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
+              backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}" 
 
 workflows:
   default:
@@ -413,24 +404,21 @@ workflows:
      # - scan-frontend:
         #  requires: [build-frontend]
          # context: Notification
-      - deploy-infrastructure:
-          requires: [test-frontend, test-backend] #scan-frontend, scan-backend]
+     - deploy-infrastructure:
+        requires: [test-frontend, test-backend] #scan-frontend, scan-backend]
           filters:
             branches:
               only: [test-feature-branch]
-      - configure-infrastructure:
+     - configure-infrastructure:
           requires: [deploy-infrastructure]
-      - run-migrations:
+     - run-migrations:
           requires: [configure-infrastructure]
-      - deploy-frontend:
+     - deploy-frontend:
           requires: [run-migrations]
-      - deploy-backend:
+     - deploy-backend:
           requires: [run-migrations]
-      - smoke-test
+     - smoke-test:
           requires: [deploy-backend, deploy-frontend]
-      - destroy-my-environment:
-          frontend_workflowID: udapeople-frontend-${CIRCLE_WORKFLOW_ID:0:7}"
-          backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
 
             
 
