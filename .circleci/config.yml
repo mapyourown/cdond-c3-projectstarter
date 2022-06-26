@@ -395,8 +395,8 @@ jobs:
       - checkout
       - run:
         - destroy-environment: 
-         frontend_workflowID : << parameters.frontend_workflowID >>
-         backend_workflowID: << parameters.backend_workflowID >>
+            frontend_workflowID : << parameters.frontend_workflowID >>
+            backend_workflowID: << parameters.backend_workflowID >>
 
 workflows:
   default:
