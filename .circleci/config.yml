@@ -23,7 +23,7 @@ commands:
           name: Destroy frontend environments ${CIRCLE_WORKFLOW_ID:0:7}
           command: |
             echo "Deleting the front end"
-            aws s3 rm s3://<< parameters.frontend_workflowID >> --recursive
+            aws s3 rm s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
             aws cloudformation delete-stack --stack-name << parameters.frontend_workflowID >> 
           when: on_fail
   
@@ -360,7 +360,7 @@ jobs:
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
       - destroy-environment: 
-              frontend_workflowID : "udapeople-${CIRCLE_WORKFLOW_ID:0:7}"
+              frontend_workflowID : "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
               backend_workflowID: "udapeople-backend-${CIRCLE_WORKFLOW_ID:0:7}"
       - store_artifacts:
           path: artifact.tar.gz
