@@ -280,6 +280,7 @@ jobs:
           command: |
             # Your code here
             cd .circleci/ansible
+            echo 54.160.181.179 >> inventory.txt 
             cat ~/project/.circleci/ansible/inventory.txt 
             ansible-playbook -i inventory.txt monitor-promethues.yml
   run-migrations:
