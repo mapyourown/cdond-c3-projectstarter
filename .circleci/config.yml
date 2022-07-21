@@ -237,12 +237,43 @@ jobs:
             # Your code here
             apk add --update ansible 
       - run:
+          name: Configure node_exporter
+          command: |
+            # Your code here
+            cd .circleci/ansible
+            cat ~/project/.circleci/ansible/inventory.txt 
+            ansible-playbook -i inventory.txt monitor-promethues.yml
+      - run:
           name: Configure server
           command: |
             # Your code here
             cd .circleci/ansible
             cat ~/project/.circleci/ansible/inventory.txt 
             ansible-playbook -i inventory.txt configure-server.yml
+
+  configure-prometheus:
+    docker: 
+      - image: python:3.7-alpine3.11
+      # Docker image here that supports Ansible
+    steps:
+      # Checkout code from git
+      - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "23:9b:23:49:05:42:38:b3:da:d1:e6:5e:e6:e6:fe:5d"
+         
+      # attach workspace
+      - attach_workspace:
+          at: ~/
+      - run:
+         cat ~/project/.circleci/ansible/inventory.txt
+      - run:
+          name: Configure node_exporter
+          command: |
+            # Your code here
+            cd .circleci/ansible
+            cat ~/project/.circleci/ansible/inventory.txt 
+            ansible-playbook -i inventory.txt monitor-promethues.yml
   run-migrations:
     docker:
       # Docker image here that supports NodeJS
@@ -478,6 +509,7 @@ workflows:
      - scan-frontend:
         requires: [build-frontend]
         context: Notification
+     - configure-prometheus
      - deploy-infrastructure:
         requires: [test-frontend, test-backend] #scan-frontend, scan-backend]
         filters:
